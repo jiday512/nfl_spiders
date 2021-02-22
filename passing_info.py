@@ -6,7 +6,7 @@ import re
 class QbsSpider(scrapy.Spider):
     name = 'passing_info'
     allowed_domains = ['www.nfl.com']
-    start_urls = ['https://nfl.com/stats/player-stats/category/passing/{}/REG/all/passingyards/desc'.format([str(x) for x in range(1970,2020)][i]) for i in range(len([str(x) for x in range(1970,2020)]))]
+    start_urls = ['https://nfl.com/stats/player-stats/category/passing/{}/REG/all/passingyards/desc'.format([str(x) for x in range(1970,2021)][i]) for i in range(len([str(x) for x in range(1970,2021)]))]
 
     def parse(self, response):
         players = response.xpath('//td/div/div/a/@href').extract()
@@ -25,9 +25,8 @@ class QbsSpider(scrapy.Spider):
     
     def player_data(self, response):
         Name = response.xpath('//h1/text()').extract()
-        Team = response.xpath('//*[@class="nfl-c-player-header__team nfl-u-hide-empty"]/text()').extract()
+        Team = response.xpath('//*[@class="nfl-o-cta--link"]/text()').extract()
         College = response.xpath('//li[contains(.,"College")]/div[2]/text()').extract()
-        #Experience = response.xpath('//li[contains(.,"Experience")]/div[2]/text()').extract()
         Height = response.xpath('//li[contains(.,"Height")]/div[2]/text()').extract()
         Weight = response.xpath('//li[contains(.,"Weight")]/div[2]/text()').extract()
         Arms =  response.xpath('//li[contains(.,"Arms")]/div[2]/text()').extract()
@@ -40,7 +39,6 @@ class QbsSpider(scrapy.Spider):
             'Position':Position,
             'Team':Team,
             'College':College,
-            #'Experience': Experience,
             'Height': Height,
             'Weight': Weight,
             'Arms': Arms,
